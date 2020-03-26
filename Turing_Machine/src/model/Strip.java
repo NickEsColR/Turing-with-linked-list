@@ -1,8 +1,16 @@
 package model;
 
 public class Strip {
+	
+	//attributes
+	
 	private char letter;
+	
+	//relations
+	
 	private Strip next;
+	
+	//methods
 	
 	public Strip(char l) {
 		letter = l;
