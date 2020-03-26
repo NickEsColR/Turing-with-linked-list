@@ -45,26 +45,46 @@ public class Turing {
 			c0 = n;
 			c1 = n;
 			c2 = n;
+			size++;
 		}else {
 			Strip temp = null;
+			size++;
 			switch(c) {
 			case 0:
 				temp = c0;
 				c0 = n;
 				c0.setNext(temp);
+				if(size == 2) {
+					c1 = c0.getNext();
+					c2 = c0.getNext();
+				}else if(size % 2 == 0 || size == 3) {
+					temp = beforeMid();
+					c1 = temp;
+				}
 			break;
 			case 1:
 				temp = c1;
 				c1 = n;
 				c1.setNext(temp);
+				if(size == 2) {
+					c0 = n;
+					c1 = c1.getNext();
+				}else if(size % 2 != 0 && size != 3) {
+					c1 = c1.getNext();
+				}
 			break;
 			case 2:
 				c2.setNext(n);
 				c2 = c2.getNext();
+				if(size == 2) {
+					c1 = c2;
+				}else if(size % 2 != 0 && size != 3) {
+					c1 = c1.getNext();
+				}
 			break;
 			}
 		}
-		size++;
+		
 		
 	}
 	
@@ -93,9 +113,11 @@ public class Turing {
 		size-=1;
 	}
 	
-	public void findMid() {
-		if(size != 0) {
-			
+	public Strip beforeMid() {
+		Strip before = c0;
+		while(before.getNext() != c1 ) {
+			before = before.getNext();
 		}
+		return before;
 	}
 }
