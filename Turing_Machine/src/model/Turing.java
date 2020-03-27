@@ -1,6 +1,14 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Turing {
+	public static String PATH_OUT = "data"+ System.getProperty(File.separator) +"output.txt";
 	private int size;
 	private Strip c0;
 	private Strip c1;
@@ -124,5 +132,38 @@ public class Turing {
 			before = before.getNext();
 		}
 		return before;
+	}
+	
+	public void readText(String input) throws IOException  { 
+		BufferedReader br = new BufferedReader(new FileReader(input));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_OUT));
+		String line = br.readLine();
+		while(line != null) {
+			int i = 0;
+			while( i < line.length()) {
+				int head = Character.getNumericValue(line.charAt(i));
+				i++;
+				int operation =  Character.getNumericValue(line.charAt(i));
+				i++;
+				switch(operation) {
+				case 0:
+					bw.write(readStrip(head));
+				break;
+				case 1:
+					char l = line.charAt(i);
+					i++;
+					addStrip(new Strip(l), head);
+				break;
+				case 2:
+					removeStrip(head);
+				break;
+				}
+			}
+			line = br.readLine();
+			cleanAll();
+		}
+		bw.flush();
+		br.close();
+		bw.close();
 	}
 }
