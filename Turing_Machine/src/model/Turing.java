@@ -118,7 +118,7 @@ public class Turing {
 		}
 	}
 	
-	public Strip beforeMid() {
+	private Strip beforeMid() {
 		Strip before = c0;
 		while(before.getNext() != c1 ) {
 			before = before.getNext();
