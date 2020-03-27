@@ -10,16 +10,10 @@ public class Turing {
 		size = 0;
 	}
 	
-	public void setC0(Strip n) {
-		c0 = n;
-	}
-	
-	public void setC1(Strip n) {
-		c1 = n;
-	}
-	
-	public void setC2(Strip n) {
-		c2 = n;
+	public void cleanAll() {
+		c0 = null;
+		c1 = null;
+		c2 = null;
 	}
 	
 	public char readStrip(int c) {
@@ -58,8 +52,7 @@ public class Turing {
 					c1 = c0.getNext();
 					c2 = c0.getNext();
 				}else if(size % 2 == 0 || size == 3) {
-					temp = beforeMid();
-					c1 = temp;
+					c1 = beforeMid();
 				}
 			break;
 			case 1:
@@ -90,27 +83,39 @@ public class Turing {
 	
 	public void removeStrip(int c) {
 		Strip temp = null;
-		switch(c) {
-		case 0:
-			c0.setNext(c0.getNext());
-		break;
-		case 1:
-			temp = c0;
-			while(temp.getNext() != c1) {
-				temp = temp.getNext();
+		size--;
+		if(size != 0) {
+			switch(c) {
+			case 0:
+				c0.setNext(c0.getNext());
+				if(size % 2 != 0 && size != 1 || size == 2) {
+					c1 = c1.getNext();
+				}
+			break;
+			case 1:
+				temp = beforeMid();
+				temp.setNext(c1.getNext());
+				c1 = temp;
+				if(size % 2 != 0 && size != 1 || size == 2) {
+					c1 = c1.getNext();
+				}
+			break;
+			case 2:
+				temp = c0;
+				while(temp.getNext() != c2) {
+					temp = temp.getNext();
+				}
+				c2 = temp;
+				if(size % 2 == 0 && size != 2 || size == 1) {
+					c1 = beforeMid();
+				}
+			break;
 			}
-			c1 = temp;
-			c1.setNext(temp.getNext().getNext());
-		break;
-		case 2:
-			temp = c1;
-			while(temp.getNext() != c2) {
-				temp = temp.getNext();
-			}
-			c2 = temp;
-		break;
+		}else {
+			c0 = null;
+			c1 = null;
+			c2 = null;
 		}
-		size-=1;
 	}
 	
 	public Strip beforeMid() {
