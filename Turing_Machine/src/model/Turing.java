@@ -2,13 +2,12 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class Turing {
-	public static String PATH_OUT = "data"+ System.getProperty(File.separator) +"output.txt";
+	public static String PATH_OUT = "data"+ System.getProperty("file.separator") +"output.txt";
 	private int size;
 	private Strip c0;
 	private Strip c1;
