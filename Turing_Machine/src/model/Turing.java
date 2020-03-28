@@ -22,6 +22,7 @@ public class Turing {
 		c0 = null;
 		c1 = null;
 		c2 = null;
+		size = 0;
 	}
 	
 	public char readStrip(int c) {
@@ -65,6 +66,7 @@ public class Turing {
 			break;
 			case 1:
 				temp = c1;
+				beforeMid().setNext(n);
 				c1 = n;
 				c1.setNext(temp);
 				if(size == 2) {
@@ -78,7 +80,7 @@ public class Turing {
 				c2.setNext(n);
 				c2 = c2.getNext();
 				if(size == 2) {
-					c1 = c2;
+					c1 = c1.getNext();
 				}else if(size % 2 != 0 && size != 3) {
 					c1 = c1.getNext();
 				}
@@ -95,17 +97,20 @@ public class Turing {
 		if(size != 0) {
 			switch(c) {
 			case 0:
-				c0.setNext(c0.getNext());
-				if(size % 2 != 0 && size != 1 || size == 2) {
+				c0 = c0.getNext();
+				if((size % 2 != 0 && size != 1) || size == 2) {
 					c1 = c1.getNext();
 				}
 			break;
 			case 1:
+				
 				temp = beforeMid();
-				temp.setNext(c1.getNext());
-				c1 = temp;
-				if(size % 2 != 0 && size != 1 || size == 2) {
-					c1 = c1.getNext();
+				if(temp != null) {
+					temp.setNext(c1.getNext());
+					c1 = temp;
+					if((size % 2 != 0 && size != 1) || size == 2) {
+						c1 = c1.getNext();
+					}
 				}
 			break;
 			case 2:
@@ -114,7 +119,7 @@ public class Turing {
 					temp = temp.getNext();
 				}
 				c2 = temp;
-				if(size % 2 == 0 && size != 2 || size == 1) {
+				if((size % 2 == 0 && size != 2 )|| size == 1) {
 					c1 = beforeMid();
 				}
 			break;
@@ -128,8 +133,10 @@ public class Turing {
 	
 	private Strip beforeMid() {
 		Strip before = c0;
-		while(before.getNext() != c1 ) {
-			before = before.getNext();
+		if(before != null) {
+			while(before.getNext() != c1 ) {
+				before = before.getNext();
+			}
 		}
 		return before;
 	}
