@@ -172,10 +172,11 @@ public class Turing {
 					removeStrip(head);
 				break;
 				}
+				if(operation == 0)
+				bw.newLine();
 			}
 			line = br.readLine();
 			cleanAll();
-			bw.newLine();
 		}
 		bw.flush();
 		br.close();
